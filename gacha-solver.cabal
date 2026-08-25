@@ -1,0 +1,21 @@
+cabal-version:      3.0
+name:               gacha-solver
+version:            0.1.0.0
+license:            NONE
+author:             Jan Rousek
+maintainer:         honza.rousek@gmail.com
+build-type:         Simple
+extra-doc-files:    README.md
+
+common warnings
+    ghc-options: -Wall
+
+executable gacha-solver
+    import:           warnings
+    main-is:          Main.hs
+    build-depends:      base ^>=4.18.3.0, containers, random
+    other-modules:      Types, Parser, Strategies, Solver, Simulate
+    hs-source-dirs:     src
+    default-language:   Haskell2010
+    default-extensions: ImportQualifiedPost
+    ghc-options:        -rtsopts
