@@ -1,93 +1,95 @@
-# gacha-solver
+# Gacha Solver
 
+Implementation of a solver for a simplified variation of the [Gacha game](https://en.wikipedia.org/wiki/Gacha_game), finding the strategy that minimizes the expected cost of collecting a target set of cards.
 
+## Problem
 
-## Getting started
+A gacha game consists of `n` distinct cards and several types of packs.
+The goal is to collect a target set of cards while minimizing the expected amount of money spent.
+The rules are:
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+- **Packs** can be bought for a fixed price
+- **Opening** a pack pulls exactly one card, chosen randomly according to a probability distribution specific to that pack type
+- **Duplicates** can be sold for a fixed price
+- **Singles** (specific cards) can be bought for a fixed price
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+## Approach
 
-## Add your files
+The optimal strategy is computed with dynamic programming over all subsets of owned cards.
+For each subset, each candidate pack (or single purchase) is evaluated based on the expected costs of the resulting subsets, and the cheapest option is chosen.
+This approach enumerates every subset of the card universe, so it only scales to a small number of distinct cards.
 
-* [Create](https://docs.gitlab.com/user/project/repository/web_editor/#create-a-file) or [upload](https://docs.gitlab.com/user/project/repository/web_editor/#upload-a-file) files
-* [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
+For comparison, four greedy heuristics are also included, each picking the next pack by a different rule:
+
+- **Price** - cheapest pack
+- **Probability** - highest chance of a new card
+- **Ratio** - best probability:price ratio
+- **Expected value** - best probability:cost ratio (accounting for duplicate income)
+
+The expected cost of each strategy is calculated via dynamic programming in a similar style to the optimal strategy.
+A Monte Carlo simulation is used to verify the computed expected cost of any strategy against its actual average cost over many simulated runs.
+
+## Scenario Format
+
+A scenario is defined in a plain text file using the following declarations:
+
+- `CARD <name> <buy-price|NONE> <sell-price|NONE>` - declares a card
+  - `NONE` means the card cannot be bought/sold
+- `PACK <price> ... END` - declares a pack
+  - Followed by one line per card it can contain, in the format `<card> <weight>`
+  - Terminated by `END`
+- `TARGET ALL` or `TARGET <card> <card> ...` - declares the set of cards to collect
+  - Multiple `TARGET` lines can be used, the sets are combined
+
+Example:
 
 ```
-cd existing_repo
-git remote add origin https://gitlab.mff.cuni.cz/rousekj1/gacha-solver.git
-git branch -M master
-git push -uf origin master
+CARD Pidgey 400 20
+CARD Machop 700 NONE
+CARD Articuno NONE 3000
+
+PACK 100
+Pidgey 40
+Machop 10
+Articuno 2
+END
+
+TARGET Machop Articuno
 ```
-
-## Integrate with your tools
-
-* [Set up project integrations](https://gitlab.mff.cuni.cz/rousekj1/gacha-solver/-/settings/integrations)
-
-## Collaborate with your team
-
-* [Invite team members and collaborators](https://docs.gitlab.com/user/project/members/)
-* [Create a new merge request](https://docs.gitlab.com/user/project/merge_requests/creating_merge_requests/)
-* [Automatically close issues from merge requests](https://docs.gitlab.com/user/project/issues/managing_issues/#closing-issues-automatically)
-* [Enable merge request approvals](https://docs.gitlab.com/user/project/merge_requests/approvals/)
-* [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-* [Get started with GitLab CI/CD](https://docs.gitlab.com/ci/quick_start/)
-* [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/user/application_security/sast/)
-* [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/topics/autodevops/requirements/)
-* [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/user/clusters/agent/)
-* [Set up protected environments](https://docs.gitlab.com/ci/environments/protected_environments/)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
 
 ## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+Requires GHC and Cabal.
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+```bash
+cabal run gacha-solver -- <scenario-file>
+```
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+## Example
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+Running the solver on the included `scenarios/scenario.txt`:
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+```bash
+cabal run gacha-solver -- scenarios/scenario.txt
+```
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+The first column is the strategy name, the second is its calculated expected cost, and the third is its average cost over simulated runs:
 
-## License
-For open source projects, say how it is licensed.
+```
+| Strategy                  |   Expected Cost |  Simulated Cost |
+|---------------------------|-----------------|-----------------|
+| Greedy: Price             |        70973.56 |        70469.78 |
+| Greedy: Probability       |        88714.00 |        88772.92 |
+| Greedy: Ratio             |        68913.84 |        68800.53 |
+| Greedy: Expected Value    |        65195.92 |        64930.22 |
+| Optimal                   |        56339.46 |        56509.28 |
+```
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+## Modules
+
+- **Types** - core data types and small helpers
+- **Parser** - reads a scenario file into a `Scenario`
+- **Strategies** - the four greedy heuristics
+- **Solver** - the dynamic programming solution and `strategyCost` for evaluating any strategy
+- **Simulate** - Monte Carlo simulation of a strategy
+- **Main** - CLI entry point
