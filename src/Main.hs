@@ -34,8 +34,8 @@ main = do
 
   printf "| %-25s | %15s | %15s |\n" "Strategy" "Expected Cost" "Simulated Cost"
   putStrLn "|---------------------------|-----------------|-----------------|"
-  reportStrategy sellPrices universe "Greedy: Price" (greedyPrice packs) target
   reportStrategy sellPrices universe "Greedy: Probability" (greedyProbability packs) target
+  reportStrategy sellPrices universe "Greedy: Price" (greedyPrice packs) target
   reportStrategy sellPrices universe "Greedy: Ratio" (greedyRatio packs) target
   reportStrategy sellPrices universe "Greedy: Expected Value" (greedyExpectedValue sellPrices packs) target
   reportStrategy sellPrices universe "Optimal" (optimal packs sellPrices universe) target

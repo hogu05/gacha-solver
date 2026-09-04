@@ -1,0 +1,54 @@
+CARD pidgey 300 30
+CARD zubat 350 40
+CARD geodude 450 50
+CARD tentacruel 1400 600
+CARD nidoking 2600 1100
+CARD rhydon 3600 1500
+CARD omastar 3500 1400
+CARD gyarados 5000 2000
+CARD lapras 6500 2600
+CARD aerodactyl 12000 1200
+CARD articuno NONE 3000
+CARD moltres NONE 900
+
+PACK 250
+zubat 500
+geodude 350
+pidgey 150
+END
+
+PACK 1000
+zubat 400
+tentacruel 350
+nidoking 250
+END
+
+PACK 1600
+geodude 500
+rhydon 350
+omastar 150
+END
+
+PACK 1200
+pidgey 300
+zubat 250
+gyarados 300
+aerodactyl 100
+articuno 30
+moltres 20
+END
+
+PACK 2500
+omastar 300
+lapras 300
+gyarados 250
+aerodactyl 150
+END
+
+PACK 3500
+articuno 640
+aerodactyl 180
+moltres 180
+END
+
+TARGET ALL

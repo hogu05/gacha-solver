@@ -1,0 +1,36 @@
+CARD common_1 260 30
+CARD common_2 260 30
+CARD common_3 260 30
+CARD common_4 260 30
+CARD rare_1 1600 700
+CARD rare_2 1600 700
+CARD rare_3 1600 700
+CARD epic_1 5200 1800
+CARD epic_2 5200 1800
+CARD legendary_1 NONE 1200
+
+PACK 100
+common_1 249
+common_2 249
+common_3 249
+common_4 249
+legendary_1 4
+END
+
+PACK 400
+common_1 160
+common_2 160
+common_3 160
+common_4 160
+rare_1 120
+rare_2 120
+rare_3 120
+END
+
+PACK 3000
+epic_1 440
+epic_2 440
+legendary_1 120
+END
+
+TARGET ALL

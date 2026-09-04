@@ -1,0 +1,51 @@
+CARD rust_blade 250 25
+CARD bone_club 250 25
+CARD oak_bow 300 30
+CARD iron_spear 900 300
+CARD steel_axe 1000 350
+CARD silver_wand 1100 380
+CARD frost_brand 4000 1600
+CARD thunder_pike 4500 1800
+CARD shadow_fang 5000 2000
+CARD dragon_lance 20000 4000
+CARD storm_cleaver 18000 3600
+CARD void_scythe 120000 8000
+
+PACK 120
+rust_blade 450
+bone_club 350
+oak_bow 200
+END
+
+PACK 600
+rust_blade 392
+bone_club 296
+iron_spear 150
+frost_brand 80
+thunder_pike 40
+shadow_fang 20
+dragon_lance 8
+storm_cleaver 8
+void_scythe 6
+END
+
+PACK 500
+iron_spear 250
+steel_axe 200
+rust_blade 200
+oak_bow 150
+silver_wand 150
+frost_brand 50
+END
+
+PACK 2200
+frost_brand 275
+thunder_pike 225
+shadow_fang 200
+iron_spear 100
+steel_axe 100
+dragon_lance 50
+storm_cleaver 50
+END
+
+TARGET ALL

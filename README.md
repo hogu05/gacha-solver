@@ -21,8 +21,8 @@ This approach enumerates every subset of the card universe, so it only scales to
 
 For comparison, four greedy heuristics are also included, each picking the next pack by a different rule:
 
-- **Price** - cheapest pack
 - **Probability** - highest chance of a new card
+- **Price** - cheapest pack
 - **Ratio** - best probability:price ratio
 - **Expected value** - best probability:cost ratio (accounting for duplicate income)
 
@@ -65,12 +65,14 @@ Requires GHC and Cabal.
 cabal run gacha-solver -- <scenario-file>
 ```
 
+Three example scenarios are included in `scenarios/`: `pokemon.txt`, `rpg.txt`, and `coupon.txt`.
+
 ## Example
 
-Running the solver on the included `scenarios/scenario.txt`:
+Running the solver on the included `scenarios/pokemon.txt`:
 
 ```bash
-cabal run gacha-solver -- scenarios/scenario.txt
+cabal run gacha-solver -- scenarios/pokemon.txt
 ```
 
 The first column is the strategy name, the second is its calculated expected cost, and the third is its average cost over simulated runs:
@@ -78,11 +80,11 @@ The first column is the strategy name, the second is its calculated expected cos
 ```
 | Strategy                  |   Expected Cost |  Simulated Cost |
 |---------------------------|-----------------|-----------------|
-| Greedy: Price             |        70973.56 |        70469.78 |
-| Greedy: Probability       |        88714.00 |        88772.92 |
-| Greedy: Ratio             |        68913.84 |        68800.53 |
-| Greedy: Expected Value    |        65195.92 |        64930.22 |
-| Optimal                   |        56339.46 |        56509.28 |
+| Greedy: Probability       |        46690.05 |        46755.72 |
+| Greedy: Price             |        49610.79 |        50024.17 |
+| Greedy: Ratio             |        31923.78 |        31930.38 |
+| Greedy: Expected Value    |        31150.12 |        31224.18 |
+| Optimal                   |        30214.62 |        30192.86 |
 ```
 
 ## Modules
