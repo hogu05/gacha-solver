@@ -44,17 +44,17 @@ A scenario is defined in a plain text file using the following declarations:
 Example:
 
 ```
-CARD Pidgey 400 20
-CARD Machop 700 NONE
-CARD Articuno NONE 3000
+CARD pidgey 400 20
+CARD machop 700 NONE
+CARD articuno NONE 3000
 
 PACK 100
-Pidgey 40
-Machop 10
-Articuno 2
+pidgey 40
+machop 10
+articuno 2
 END
 
-TARGET Machop Articuno
+TARGET machop articuno
 ```
 
 ## Usage
